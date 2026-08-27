@@ -1,145 +1,250 @@
 import { supplierSchema } from "../schema/supplierSchema";
 import { useCreateSupplier } from "../hooks/useCreateSupplier";
 import { useUpdateSupplier } from "../hooks/useUpdateSupplier";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function SupplierForm({
-    supplier,
-    onSuccess,
+  supplier,
+  onSuccess,
 }) {
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    
-    } = useForm({
-        resolver: zodResolver(supplierSchema),
-        defaultValues: {
-            supplier_code: supplier?.supplier_code || "",
-            name: supplier?.name || "",
-            company_name: supplier?.company_name || "",
-            phone: supplier?.phone || "",
-            email: supplier?.email || "",
-            gst_number: supplier?.gst_number || "",
-            address: supplier?.address || "",
-        },
-    });
-    const updateMutation = useUpdateSupplier();
-    const { mutateAsync, isPending } =
-        useCreateSupplier();
+  const createMutation = useCreateSupplier();
+  const updateMutation = useUpdateSupplier();
 
-    const onSubmit = async (data) => {
-        if (supplier) {
-            await updateMutation.mutateAsync({
-            id: supplier.id,
-            data,
-            });
-        } else {
-            await mutateAsync(data);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(supplierSchema),
+
+    defaultValues: {
+      supplier_code: supplier?.supplier_code || "",
+      name: supplier?.name || "",
+      company_name: supplier?.company_name || "",
+      phone: supplier?.phone || "",
+      email: supplier?.email || "",
+      gst_number: supplier?.gst_number || "",
+      address: supplier?.address || "",
+    },
+  });
+
+  const isPending =
+    createMutation.isPending ||
+    updateMutation.isPending;
+
+  const onSubmit = async (data) => {
+    try {
+      console.log("Supplier data:", data);
+
+      if (supplier) {
+        await updateMutation.mutateAsync({
+          id: supplier.id,
+          data,
+        });
+      } else {
+        await createMutation.mutateAsync(data);
+      }
+
+      reset();
+      onSuccess?.();
+
+    } catch (error) {
+        console.error(
+            "Supplier save error:",
+            error
+        );
+
+        console.log(
+            "VALIDATION ERRORS:",
+            JSON.stringify(
+            error?.response?.data?.errors,
+            null,
+            2
+            )
+        );
         }
+  };
 
-        reset();
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6"
+    >
 
-        onSuccess?.();
-    };
+      {/* Supplier Details */}
 
-    return (
-        <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6"
-        >
-        <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
-            <div>
-            <Input
-                placeholder="Supplier Code"
-                {...register("supplier_code")}
-            />
-            <p className="text-sm text-red-500">
-                {errors.supplier_code?.message}
-            </p>
-            </div>
-
-            <div>
-            <Input
-                placeholder="Supplier Name"
-                {...register("name")}
-            />
-            <p className="text-sm text-red-500">
-                {errors.name?.message}
-            </p>
-            </div>
-
-            <div>
-            <Input
-                placeholder="Company Name"
-                {...register("company_name")}
-            />
-            </div>
-
-            <div>
-            <Input
-                placeholder="Phone"
-                {...register("phone")}
-            />
-            <p className="text-sm text-red-500">
-                {errors.phone?.message}
-            </p>
-            </div>
-
-            <div>
-            <Input
-                placeholder="Email"
-                {...register("email")}
-            />
-            <p className="text-sm text-red-500">
-                {errors.email?.message}
-            </p>
-            </div>
-
-            <div>
-            <Input
-                placeholder="GST Number"
-                {...register("gst_number")}
-            />
-            </div>
-
-        </div>
+        {/* Supplier Code */}
 
         <div>
-            <Textarea
-            rows={4}
-            placeholder="Address"
-            {...register("address")}
-            />
+          <label className="mb-2 block text-sm font-medium">
+            Supplier Code
+          </label>
+
+          <Input
+            placeholder="SUP001"
+            {...register("supplier_code")}
+          />
+
+          {errors.supplier_code && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.supplier_code.message}
+            </p>
+          )}
         </div>
 
-        <div className="flex justify-end gap-2">
+        {/* Supplier Name */}
 
-            <Button
-            type="button"
-            variant="outline"
-            onClick={onSuccess}
-            >
-            Cancel
-            </Button>
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Supplier Name
+          </label>
 
-            <Button
-            type="submit"
-            disabled={isPending || updateMutation.isPending}
-            >
-            {supplier
-                ? "Update Supplier"
-                : "Save Supplier"}
-            </Button>
+          <Input
+            placeholder="Supplier name"
+            {...register("name")}
+          />
 
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.name.message}
+            </p>
+          )}
         </div>
-        </form>
-    );
-    }
+
+        {/* Company */}
+
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Company Name
+          </label>
+
+          <Input
+            placeholder="Company name"
+            {...register("company_name")}
+          />
+
+          {errors.company_name && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.company_name.message}
+            </p>
+          )}
+        </div>
+
+        {/* Phone */}
+
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Phone
+          </label>
+
+          <Input
+            placeholder="10-digit mobile number"
+            {...register("phone")}
+          />
+
+          {errors.phone && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.phone.message}
+            </p>
+          )}
+        </div>
+
+        {/* Email */}
+
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Email
+          </label>
+
+          <Input
+            type="email"
+            placeholder="supplier@example.com"
+            {...register("email")}
+          />
+
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        {/* GST */}
+
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            GST Number
+          </label>
+
+          <Input
+            placeholder="GST number"
+            {...register("gst_number")}
+          />
+
+          {errors.gst_number && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.gst_number.message}
+            </p>
+          )}
+        </div>
+
+      </div>
+
+      {/* Address */}
+
+      <div>
+        <label className="mb-2 block text-sm font-medium">
+          Address
+        </label>
+
+        <Textarea
+          rows={4}
+          placeholder="Supplier address"
+          {...register("address")}
+        />
+
+        {errors.address && (
+          <p className="mt-1 text-sm text-red-500">
+            {errors.address.message}
+          </p>
+        )}
+      </div>
+
+      {/* Buttons */}
+
+      <div className="flex justify-end gap-2">
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onSuccess}
+          disabled={isPending}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          type="submit"
+          disabled={isPending}
+        >
+          {isPending
+            ? "Saving..."
+            : supplier
+              ? "Update Supplier"
+              : "Save Supplier"}
+        </Button>
+
+      </div>
+
+    </form>
+  );
+}

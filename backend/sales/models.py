@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from common.models import TimeStampedModel
-
+from django.db.models import Max
 
 class Sale(TimeStampedModel):
     sale_number = models.CharField(
@@ -44,11 +44,24 @@ class Sale(TimeStampedModel):
     remarks = models.TextField(
         blank=True,
     )
+    
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
     )
+    def save(self, *args, **kwargs):
+        if not self.sale_number:
+            last_sale = (
+                Sale.objects.aggregate(
+                    max_id = Max("id")
+                )["max_id"]
+                or 0
+            )
+            self.sale_number = (
+                f"INV-{last_sale + 1:06d}"
+            )
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["-sale_date"]

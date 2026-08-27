@@ -8,6 +8,7 @@ import {
   CreditCard,
   BarChart3,
   Settings,
+  Boxes,
 } from "lucide-react";
 
 export const navigation = [
@@ -21,6 +22,11 @@ export const navigation = [
     url: "/products",
     icon: Package,
   },
+  {
+    title: "Inventory",
+    url: "/inventory",
+    icon: Boxes,
+    },
   {
     title: "Customers",
     url: "/customers",

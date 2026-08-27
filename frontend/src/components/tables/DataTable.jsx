@@ -77,10 +77,12 @@ export default function DataTable({
                     <TableRow key={row.id}>
                     {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>
-                        {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                        )}
+                            {cell.column.columnDef.cell
+                                ? flexRender(
+                                    cell.column.columnDef.cell,
+                                    cell.getContext()
+                            ): cell.getValue()
+                        }
                         </TableCell>
                     ))}
                     </TableRow>

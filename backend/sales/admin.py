@@ -47,9 +47,11 @@ class SaleAdmin(admin.ModelAdmin):
             description=f"Deleted Sale: {obj.sale_number}",
         )
 
-        super().delete_model(request, obj)
-
+        SaleService.delete_sale(obj)
+        
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
 
         SaleService.update_stock(form.instance)
+        SaleService.deduct_stock(sale)
+        SaleService.calculate_totals(sale)

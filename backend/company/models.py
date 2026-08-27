@@ -2,12 +2,31 @@ from django.db import models
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, help_text="Company Name, e.g. FARENI")
 
     logo = models.ImageField(
         upload_to="company/",
         blank=True,
         null=True,
+        help_text="Comapany logo/ branding image"
+    )
+
+    tagline = models.CharField(
+        max_length=200,
+        blank=True,
+        default="FASTENING SYSTEMS",
+    )
+
+    business_type = models.CharField(
+        max_length=200,
+        blank=True,
+        default="STOCKIST | SUPPLIER | EXPORTER",
+    )
+
+    business_description = models.CharField(
+        max_length=250,
+        blank=True,
+        default="OF HIGH TENSILE FASTENERS",
     )
 
     gst_number = models.CharField(

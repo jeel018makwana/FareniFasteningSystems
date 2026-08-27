@@ -5,6 +5,7 @@ export default function DataTablePagination({
   setPage,
   count,
   pageSize = 10,
+  label="records",
 }) {
   const totalPages = Math.max(1, Math.ceil(count / pageSize));
 
@@ -22,7 +23,7 @@ export default function DataTablePagination({
         <span className="font-medium text-foreground">
           {count}
         </span>{" "}
-        customers
+        {label}
       </p>
 
       <div className="flex items-center gap-2">

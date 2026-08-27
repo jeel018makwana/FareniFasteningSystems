@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
 import CustomerRowActions from "./CustomerRowActions";
 export const customerColumns = [
   {
@@ -25,9 +23,9 @@ export const customerColumns = [
     header: "Balance",
     cell: ({ row }) => {
         return new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency: "INR",
-        }).format(row.original.opening_balance);
+            style: "currency",
+            currency: "INR",
+        }).format(Number(row.original.opening_balance || 0));
     },
    },
    {

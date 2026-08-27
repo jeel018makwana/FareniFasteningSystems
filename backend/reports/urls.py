@@ -5,6 +5,7 @@ from .views import (
     PurchaseReportAPIView,
     PaymentReportAPIView,
     ProfitReportAPIView,
+    LowStockReportAPIView,
 )
 
 urlpatterns = [
@@ -12,6 +13,11 @@ urlpatterns = [
         "inventory/",
         InventoryReportAPIView.as_view(),
         name="inventory-report",
+    ),
+    path(
+        "low-stock/",
+        LowStockReportAPIView.as_view(),
+        name="low-stock-report",
     ),
 
     path(

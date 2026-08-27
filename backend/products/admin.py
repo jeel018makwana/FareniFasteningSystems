@@ -46,6 +46,7 @@ class ProductAdmin(admin.ModelAdmin):
         "category",
         "brand",
         "grade",
+        "thread_pitch",
         "size",
         "purchase_price",
         "selling_price",

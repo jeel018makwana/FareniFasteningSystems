@@ -12,6 +12,7 @@ import { supplierColumns } from "../components/supplierColumns";
 import SupplierToolbar from "../components/SupplierToolbar";
 import SupplierDialog from "../components/SupplierDialog";
 import SupplierViewDialog from "../components/SupplierViewDialog";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 export default function SuppliersPage() {
   const [open, setOpen] = useState(false);
@@ -72,58 +73,62 @@ export default function SuppliersPage() {
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-3xl font-bold">Suppliers</h1>
+    <DashboardLayout>
 
-      <SupplierToolbar
-        search={search}
-        setSearch={setSearch}
-        onAdd={() => setOpen(true)}
-        onRefresh={refetch}
-      />
+      <div className="space-y-4">
+        <h1 className="text-3xl font-bold">Suppliers</h1>
 
-      <div>
-        Total Suppliers: {tableData.length}
+        <SupplierToolbar
+          search={search}
+          setSearch={setSearch}
+          onAdd={() => setOpen(true)}
+          onRefresh={refetch}
+        />
+
+        <div>
+          Total Suppliers: {tableData.length}
+        </div>
+
+        <DataTable
+          columns={supplierColumns}
+          data={tableData}
+          loading={isLoading}
+        />
+
+        <SupplierDialog
+          open={open}
+          supplier={selectedSupplier}
+          onOpenChange={(value) => {
+            setOpen(value);
+
+            if (!value) {
+              setSelectedSupplier(null);
+            }
+          }}
+        />
+
+        <DeleteConfirmationDialog
+          open={deleteOpen}
+          onOpenChange={setDeleteOpen}
+          loading={deleteMutation.isPending}
+          title="Delete Supplier"
+          description={`Are you sure you want to delete "${supplierToDelete?.name}"? This action cannot be undone.`}
+          onConfirm={confirmDelete}
+        />
+
+        <SupplierViewDialog
+          open={viewOpen}
+          onOpenChange={setViewOpen}
+          supplier={selectedSupplier}
+        />
+
+        <DataTablePagination
+          page={page}
+          setPage={setPage}
+          count={data?.count || 0}
+        />
       </div>
+    </DashboardLayout>
 
-      <DataTable
-        columns={supplierColumns}
-        data={tableData}
-        loading={isLoading}
-      />
-
-      <SupplierDialog
-        open={open}
-        supplier={selectedSupplier}
-        onOpenChange={(value) => {
-          setOpen(value);
-
-          if (!value) {
-            setSelectedSupplier(null);
-          }
-        }}
-      />
-
-      <DeleteConfirmationDialog
-        open={deleteOpen}
-        onOpenChange={setDeleteOpen}
-        loading={deleteMutation.isPending}
-        title="Delete Supplier"
-        description={`Are you sure you want to delete "${supplierToDelete?.name}"? This action cannot be undone.`}
-        onConfirm={confirmDelete}
-      />
-
-      <SupplierViewDialog
-        open={viewOpen}
-        onOpenChange={setViewOpen}
-        supplier={selectedSupplier}
-      />
-
-      <DataTablePagination
-        page={page}
-        setPage={setPage}
-        count={data?.count || 0}
-      />
-    </div>
   );
 }

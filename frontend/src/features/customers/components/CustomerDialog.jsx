@@ -11,6 +11,7 @@ export default function CustomerDialog({
   open,
   onOpenChange,
   customer,
+  onCreated,
 }) {
   return (
     <Dialog

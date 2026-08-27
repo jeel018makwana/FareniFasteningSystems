@@ -6,6 +6,7 @@ class Customer(TimeStampedModel):
     customer_code = models.CharField(
         max_length=20,
         unique=True,
+        blank=True,
     )
 
     name = models.CharField(
@@ -62,5 +63,25 @@ class Customer(TimeStampedModel):
     class Meta:
         ordering = ["name"]
 
+    def save(self, *args, **kwargs):
+        if not self.customer_code:
+            last_customer = (
+                Customer.objects.filter(customer_code_startswith="CUS")
+                .order_by("-id")
+                .first()
+            )
+
+            if last_customer:
+                try:
+                    last_number = int(
+                        last_customer.customer_code.replace("CUS","")
+                    )
+                except ValueError:
+                    last_number = 0
+            else:
+                last_number = 0
+
+            self.customer_code = f"CUS{last_number + 1:03d}"
+        super().save(*args,**kwargs)
     def __str__(self):
         return f"{self.customer_code} - {self.name}"

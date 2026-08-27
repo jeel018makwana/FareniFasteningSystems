@@ -6,9 +6,12 @@ from products.models import Product
 class InventoryTransaction(TimeStampedModel):
 
     TRANSACTION_TYPES = (
+        ("STOCK_IN", "Stock In"),
+        ("STOCK_OUT", "Stock Out"),
         ("PURCHASE", "Purchase"),
         ("SALE", "Sale"),
         ("ADJUSTMENT", "Adjustment"),
+        ("OPENING", "Opening Stock"),
     )
 
     product = models.ForeignKey(
@@ -24,8 +27,13 @@ class InventoryTransaction(TimeStampedModel):
 
     quantity = models.IntegerField()
 
+    stock_after_transaction = models.IntegerField(
+        default=0,
+    )
+
     reference = models.CharField(
         max_length=100,
+        blank=True,
     )
 
     remarks = models.TextField(

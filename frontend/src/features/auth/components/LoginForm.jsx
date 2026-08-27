@@ -32,19 +32,39 @@ export default function LoginForm() {
     });
 
     const onSubmit = async (data) => {
+        // try {
+        //     await login(data);
+
+        //     toast.success("Login Successful");
+
+        //     navigate("/dashboard");
+        // } catch (error) {
+        //     toast.error(
+        //     error?.response?.data?.message ||
+        //     "Invalid username or password"
+        //     );
+        // }
         try {
             await login(data);
 
+            console.log("LOGIN SUCCESS");
+
             toast.success("Login Successful");
 
-            navigate("/");
+            navigate("/dashboard");
+
+            console.log("NAVIGATED TO DASHBOARD");
+
         } catch (error) {
+            console.log("LOGIN ERROR:", error);
+
             toast.error(
-            error?.response?.data?.message ||
-            "Invalid username or password"
+                error?.response?.data?.message ||
+                "Invalid username or password"
             );
         }
     };
+
 
     return (
         <Card className="w-full max-w-md border-0 shadow-2xl backdrop-blur">

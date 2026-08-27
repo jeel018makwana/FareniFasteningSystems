@@ -1,4 +1,3 @@
-from django.db.models import F, ExpressionWrapper, DecimalField, Sum
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -231,3 +230,27 @@ class ProfitReportAPIView(APIView):
                 "gross_profit": total_profit,
                 "results": report,
             })
+        
+@extend_schema(
+    responses={200: dict}
+)
+class LowStockReportAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        products = Product.objects.filter(
+            current_stock__lte=F("minimum_stock")
+        ).values(
+
+            "product_code",
+            "name",
+            "current_stock",
+            "minimum_stock",
+            "purchase_price",
+            "selling_price",
+
+        )
+
+        return Response(products)

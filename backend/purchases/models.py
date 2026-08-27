@@ -3,7 +3,7 @@ from common.models import TimeStampedModel
 from suppliers.models import Supplier
 from products.models import Product
 from django.conf import settings
-
+from django.db.models import Max
 
 class Purchase(TimeStampedModel):
 
@@ -62,6 +62,22 @@ class Purchase(TimeStampedModel):
 
     def __str__(self):
         return self.purchase_number
+    def save(self, *args, **kwargs):
+
+        if not self.purchase_number:
+
+            last_purchase = (
+                Purchase.objects.aggregate(
+                    max_id=Max("id")
+                )["max_id"]
+                or 0
+            )
+
+            self.purchase_number = (
+                f"PUR-{last_purchase + 1:06d}"
+            )
+
+        super().save(*args, **kwargs)
 
 
 class PurchaseItem(TimeStampedModel):
@@ -111,6 +127,6 @@ class PurchaseItem(TimeStampedModel):
 
         gst_amount = (basic_amount * self.gst) / 100
 
-        self.line_total = basic_amount + gst_amount
+        self.line_total = basic_amount
 
         return basic_amount, gst_amount

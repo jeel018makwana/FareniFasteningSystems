@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 from common.models import TimeStampedModel
-
+from sales.models import Sale
+from purchases.models import Purchase
 
 class Payment(TimeStampedModel):
 
@@ -45,6 +46,22 @@ class Payment(TimeStampedModel):
         related_name="payments",
     )
 
+    sale = models.ForeignKey(
+        Sale,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="payments",
+    )
+
+    purchase = models.ForeignKey(
+        Purchase,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="payments",
+    )
+
     amount = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -69,8 +86,31 @@ class Payment(TimeStampedModel):
         on_delete=models.PROTECT,
     )
 
+    def save(self, *args, **kwargs):
+
+        if not self.payment_number:
+
+            last_payment = (
+                Payment.objects
+                .order_by("-id")
+                .first()
+            )
+
+            if last_payment:
+                number = last_payment.id + 1
+            else:
+                number = 1
+
+            self.payment_number = (
+                f"PAY-{number:06d}"
+            )
+
+        super().save(*args, **kwargs)
+
     class Meta:
         ordering = ["-payment_date"]
 
     def __str__(self):
         return self.payment_number
+    
+    

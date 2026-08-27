@@ -9,6 +9,32 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = "__all__"
 
+        extra_kwargs = {
+            "customer_code": {
+                "required": False,
+                "read_only": True,
+            }
+        }
+    def create(self, validated_data):
+        last_customer = (
+            Customer.objects.order_by("-id").first()
+        )
+
+        if last_customer:
+            try:
+                last_number = int(
+                    last_customer.customer_code.split("-")[-1]
+                )
+                next_number = last_number + 1
+            except (ValueError, AttributeError):
+                next_number = 1
+        else:
+            next_number = 1
+
+        validated_data["customer_code"] = f"CUST-{next_number:03d}"
+
+        return Customer.objects.create(**validated_data)
+    
     def validate_name(self, value):
         value = value.strip()
 

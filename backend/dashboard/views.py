@@ -9,7 +9,7 @@ from purchases.models import Purchase
 from sales.models import Sale
 from payments.models import Payment
 from drf_spectacular.utils import extend_schema
-
+from django.db.models.functions import TruncMonth
 
 @extend_schema(
     responses={
@@ -79,10 +79,23 @@ class DashboardAPIView(APIView):
             current_stock__lte=F("minimum_stock")
         ).count()
 
+        low_stock_items = list(
+            Product.objects.filter(
+                current_stock__lte=F("minimum_stock")
+            )
+            .values(
+                "product_code",
+                "name",
+                "current_stock",
+                "minimum_stock",
+            )[:5]
+        )
+
         recent_sales = list(
             Sale.objects.order_by("-sale_date")
             .values(
                 "sale_number",
+                "customer__name",
                 "grand_total",
                 "sale_date",
             )[:5]
@@ -95,6 +108,18 @@ class DashboardAPIView(APIView):
                 "grand_total",
                 "purchase_date",
             )[:5]
+        )
+
+        monthly_sales = list(
+            Sale.objects
+            .annotate(
+                month=TruncMonth("sale_date")
+            )
+            .values("month")
+            .annotate(
+                revenue=Sum("grand_total")
+            )
+            .order_by("month")
         )
 
         return Response({
@@ -116,6 +141,10 @@ class DashboardAPIView(APIView):
             "current_inventory": current_inventory,
 
             "low_stock_products": low_stock,
+
+            "low_stock_items": low_stock_items,
+
+            "monthly_sales": monthly_sales,
 
             "recent_sales": recent_sales,
 

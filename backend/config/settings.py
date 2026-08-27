@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'purchases',
     'sales',
     'payments',
-    'expenses',
     'reports',
     'django_filters',
     'dashboard',

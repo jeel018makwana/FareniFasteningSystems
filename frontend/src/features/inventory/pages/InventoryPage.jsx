@@ -11,7 +11,7 @@ import useDebounce from "../hooks/useDebounce";
 import { useInventory } from "../hooks/useInventory";
 import { useDeleteInventory } from "../hooks/useDeleteInventory";
 
-import { inventoryColumns } from "../components/InventoryColumns";
+import { inventoryColumns } from "../components/inventoryColumns";
 import InventoryToolbar from "../components/InventoryToolbar";
 import InventoryDialog from "../components/InventoryDialog";
 import InventoryViewDialog from "../components/InventoryViewDialog";

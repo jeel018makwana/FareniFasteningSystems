@@ -14,7 +14,7 @@ export default function DashboardLayout({ children }) {
       <SidebarInset>
         <Header />
 
-        <main className="flex-1 p-6">
+        <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-gray-100 via-white to-orange-50 p-6">
           {children}
         </main>
       </SidebarInset>

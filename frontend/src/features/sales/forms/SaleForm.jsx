@@ -698,7 +698,12 @@ export default function SaleForm({
                   }
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Category" />
+                    <SelectValue placeholder="Select category">
+                      {categoryList.find(
+                        (category) =>
+                          Number(category.id) === Number(selectedCategory)
+                      )?.name}
+                    </SelectValue>
                   </SelectTrigger>
 
                   <SelectContent>
@@ -744,7 +749,18 @@ export default function SaleForm({
                   }
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Type" />
+                    <SelectValue
+                      placeholder={
+                        selectedCategory
+                          ? "Select type"
+                          : "Select category first"
+                      }
+                    >
+                      {productTypeList.find(
+                        (type) =>
+                          Number(type.id) === Number(selectedProductType)
+                      )?.name}
+                    </SelectValue>
                   </SelectTrigger>
 
                   <SelectContent>
@@ -791,7 +807,18 @@ export default function SaleForm({
                   }
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Size" />
+                    <SelectValue
+                      placeholder={
+                        selectedProductType
+                          ? "Select size"
+                          : "Select type first"
+                      }
+                    >
+                      {productSizeList.find(
+                        (size) =>
+                          Number(size.id) === Number(selectedProductSize)
+                      )?.name}
+                    </SelectValue>
                   </SelectTrigger>
 
                   <SelectContent>
@@ -838,7 +865,18 @@ export default function SaleForm({
                   }
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Length" />
+                    <SelectValue
+                      placeholder={
+                        selectedProductSize
+                          ? "Select length"
+                          : "Select size first"
+                      }
+                    >
+                      {productLengthList.find(
+                        (length) =>
+                          Number(length.id) === Number(selectedProductLength)
+                      )?.name}
+                    </SelectValue>
                   </SelectTrigger>
 
                   <SelectContent>

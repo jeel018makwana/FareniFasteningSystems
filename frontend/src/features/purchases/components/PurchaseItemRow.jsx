@@ -416,7 +416,12 @@ export default function PurchaseItemRow({
           >
 
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select category" />
+              <SelectValue placeholder="Select category">
+                {categoryList.find(
+                  (category) =>
+                    Number(category.id) === Number(selectedCategory)
+                )?.name}
+              </SelectValue>.
             </SelectTrigger>
 
             <SelectContent>
@@ -471,7 +476,12 @@ export default function PurchaseItemRow({
                     ? "Select type"
                     : "Select category first"
                 }
-              />
+              >
+                {productTypeList.find(
+                  (type) =>
+                    Number(type.id) === Number(selectedProductType)
+                )?.name}
+              </SelectValue>
 
             </SelectTrigger>
 
@@ -527,7 +537,12 @@ export default function PurchaseItemRow({
                     ? "Select size"
                     : "Select type first"
                 }
-              />
+              >
+                {productSizeList.find(
+                  (size) =>
+                    Number(size.id) === Number(selectedProductSize)
+                )?.name}
+              </SelectValue>
 
             </SelectTrigger>
 
@@ -583,7 +598,12 @@ export default function PurchaseItemRow({
                     ? "Select length"
                     : "Select size first"
                 }
-              />
+              >
+                {productLengthList.find(
+                  (length) =>
+                    Number(length.id) === Number(selectedProductLength)
+                )?.name}
+              </SelectValue>
 
             </SelectTrigger>
 
@@ -639,7 +659,12 @@ export default function PurchaseItemRow({
                     ? "Select product"
                     : "Select length first"
                 }
-              />
+              >
+                {products.find(
+                  (product) =>
+                    Number(product.id) === Number(selectedProductId)
+                )?.product_code}
+              </SelectValue>
 
             </SelectTrigger>
 

@@ -103,11 +103,11 @@ export const createProductLength = async (data) => {
 };
 
 export const getAllProducts = async () => {
-    const response = await axiosInstance.get("/products/", {
-      params: {
-        page_size: 1000,
-      },
-    });
-  
-    return response.data;
-  };
+  const response = await axiosInstance.get("/products/", {
+    params: { page_size: 1000 },
+  });
+
+  console.log("PRODUCT API RESPONSE:", response.data);
+
+  return response.data;
+};

@@ -270,7 +270,7 @@ export default function SaleItemRow({
                     key={product.id}
                     value={product.id.toString()}
                   >
-                    {product.code}
+                    {product.product_code}
                   </SelectItem>
                 )
               )

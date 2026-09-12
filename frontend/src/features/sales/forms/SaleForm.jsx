@@ -699,9 +699,10 @@ export default function SaleForm({
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select category">
-                      {categoryList.find(
+                      {categories.find(
                         (category) =>
-                          Number(category.id) === Number(selectedCategory)
+                          Number(category.id) ===
+                          Number(watch(`items.${index}.category`))
                       )?.name}
                     </SelectValue>
                   </SelectTrigger>
@@ -751,14 +752,15 @@ export default function SaleForm({
                   <SelectTrigger className="w-full">
                     <SelectValue
                       placeholder={
-                        selectedCategory
+                        watch(`items.${index}.category`)
                           ? "Select type"
                           : "Select category first"
                       }
                     >
-                      {productTypeList.find(
+                      {(productTypes[index] || []).find(
                         (type) =>
-                          Number(type.id) === Number(selectedProductType)
+                          Number(type.id) ===
+                          Number(watch(`items.${index}.product_type`))
                       )?.name}
                     </SelectValue>
                   </SelectTrigger>
@@ -809,14 +811,15 @@ export default function SaleForm({
                   <SelectTrigger className="w-full">
                     <SelectValue
                       placeholder={
-                        selectedProductType
+                        watch(`items.${index}.product_type`)
                           ? "Select size"
                           : "Select type first"
                       }
                     >
-                      {productSizeList.find(
+                      {(productSizes[index] || []).find(
                         (size) =>
-                          Number(size.id) === Number(selectedProductSize)
+                          Number(size.id) ===
+                          Number(watch(`items.${index}.product_size`))
                       )?.name}
                     </SelectValue>
                   </SelectTrigger>
@@ -867,14 +870,15 @@ export default function SaleForm({
                   <SelectTrigger className="w-full">
                     <SelectValue
                       placeholder={
-                        selectedProductSize
+                        watch(`items.${index}.product_size`)
                           ? "Select length"
                           : "Select size first"
                       }
                     >
-                      {productLengthList.find(
+                      {(productLengths[index] || []).find(
                         (length) =>
-                          Number(length.id) === Number(selectedProductLength)
+                          Number(length.id) ===
+                          Number(watch(`items.${index}.product_length`))
                       )?.name}
                     </SelectValue>
                   </SelectTrigger>

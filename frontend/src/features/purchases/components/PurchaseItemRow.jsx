@@ -660,7 +660,7 @@ export default function PurchaseItemRow({
                       key={product.id}
                       value={product.id.toString()}
                     >
-                      {product.name}
+                      {product.product_code || "NO PRODUCT CODE"}
                     </SelectItem>
 
                   )

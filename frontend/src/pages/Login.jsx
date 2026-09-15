@@ -1,9 +1,5 @@
+import LoginForm from "../components/LoginForm";
+
 export default function Login() {
-  return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-white">
-        Login
-      </h1>
-    </div>
-  );
+  return <LoginForm />;
 }

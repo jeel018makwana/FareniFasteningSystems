@@ -9,6 +9,9 @@ import {
   Hexagon,
   CircleDot,
   Settings2,
+  Factory,
+  Cog,
+  Package,
 } from "lucide-react";
 
 import { useForm } from "react-hook-form";
@@ -139,6 +142,37 @@ export default function LoginForm() {
 
           </div>
 
+          {/* Product Image Showcase */}
+            <div className="relative mb-8 h-56 w-full overflow-hidden rounded-2xl border border-orange-500/20 bg-white/[0.03]">
+
+            {/* Watermark */}
+            <div className="absolute inset-0 flex items-center justify-center">
+                <span className="rotate-[-8deg] text-6xl font-black tracking-widest text-white/[0.025]">
+                FARENI
+                </span>
+            </div>
+
+            {/* Product placeholders */}
+            <div className="relative z-10 flex h-full items-center justify-center gap-5">
+
+                <div className="flex h-32 w-32 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] shadow-2xl backdrop-blur-sm">
+                <Cog className="h-20 w-20 text-orange-500/80" strokeWidth={1.2} />
+                </div>
+
+                <div className="flex h-40 w-40 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/[0.05] shadow-2xl backdrop-blur-sm">
+                <Factory className="h-24 w-24 text-orange-500/80" strokeWidth={1.1} />
+                </div>
+
+                <div className="flex h-32 w-32 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] shadow-2xl backdrop-blur-sm">
+                <Package className="h-20 w-20 text-orange-400/70" strokeWidth={1.2} />
+                </div>
+
+            </div>
+
+            {/* Bottom orange line */}
+            <div className="absolute bottom-0 left-0 h-[2px] w-full bg-gradient-to-r from-transparent via-orange-500 to-transparent" />
+            </div>
+
           {/* CENTER CONTENT */}
           <div className="max-w-xl">
 
@@ -202,7 +236,7 @@ export default function LoginForm() {
 
             <div className="flex items-center gap-3">
               <span className="text-2xl font-black text-white">
-                FSS
+                FIS
               </span>
 
               <span className="text-sm font-medium tracking-[0.25em] text-gray-500">
@@ -246,7 +280,7 @@ export default function LoginForm() {
         {/* Top right ERP branding */}
         <div className="absolute right-8 top-8 hidden items-center gap-4 lg:flex">
           <span className="text-xl font-black tracking-tight text-[#111315]">
-            FSS
+            FIS
             <span className="ml-1 font-normal text-gray-500">
               ERP
             </span>

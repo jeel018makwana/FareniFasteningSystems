@@ -122,11 +122,7 @@ export default function LoginForm() {
 
             <div className="flex items-center gap-3">
 
-              <div className="flex h-12 w-12 items-center justify-center border-2 border-orange-500 bg-black">
-                <span className="text-xl font-black text-orange-500">
-                  F
-                </span>
-              </div>
+              <img src="/images/logo.png" alt="Fareni Logo" className="w-full max-w-xl object-contain" />
 
               <div>
                 <h1 className="text-3xl font-black tracking-[0.12em] text-white">

@@ -121,7 +121,7 @@ export default function LoginForm() {
           <div>
 
             <div className="flex items-center gap-3">
-
+              
               <img src="/images/logo.png" alt="Fareni Logo" className="w-full max-w-xl object-contain" />
 
               <div>

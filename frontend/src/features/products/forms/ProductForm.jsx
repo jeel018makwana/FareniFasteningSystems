@@ -21,6 +21,8 @@ import AddProductLengthDialog from "../components/AddProductLengthDialog";
 import { useCreateProductType } from "../hooks/useCreateProductType";
 import { useCreateProductSize } from "../hooks/useCreateProductSize";
 import { useCreateProductLength } from "../hooks/useCreateProductLength";
+import AddBrandDialog from "../components/AddBrandDialog";
+import { useCreateBrand } from "../hooks/useCreateBrand";
 import {
   Select,
   SelectContent,
@@ -74,6 +76,7 @@ export default function ProductForm({
   const [addTypeOpen, setAddTypeOpen] = useState(false);
   const [addSizeOpen, setAddSizeOpen] = useState(false);
   const [addLengthOpen, setAddLengthOpen] = useState(false);
+  const [addBrandOpen, setAddBrandOpen] = useState(false);
 
   const createMutation = useCreateProduct();
   const updateMutation = useUpdateProduct();
@@ -561,9 +564,19 @@ export default function ProductForm({
 
           {/* Brand */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
-              Brand
-            </label>
+            <div className="mb-2 flex items-center justify-between">
+              <label className="block text-sm font-medium">
+                Brand
+              </label>
+
+              <button
+                type="button"
+                onClick={() => setAddBrandOpen(true)}
+                className="text-sm font-medium text-[#F45A00] hover:underline"
+              >
+                + Add Brand
+              </button>
+            </div>
 
             <Select
               value={watch("brand")?.toString()}
@@ -571,16 +584,21 @@ export default function ProductForm({
                 setValue(
                   "brand",
                   Number(value),
-                  { shouldValidate: true }
+                  {
+                    shouldValidate: true,
+                  }
                 )
               }
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select brand">
-                  {brandList.find(
-                    (brand) =>
-                      brand.id.toString() === watch("brand")?.toString()
-                  )?.name}
+                  {
+                    brandList.find(
+                      (brand) =>
+                        brand.id.toString() ===
+                        watch("brand")?.toString()
+                    )?.name
+                  }
                 </SelectValue>
               </SelectTrigger>
 
@@ -981,6 +999,11 @@ export default function ProductForm({
         open={addLengthOpen}
         onOpenChange={setAddLengthOpen}
         productSizeId={selectedProductSize}
+      />
+
+      <AddBrandDialog
+        open={addBrandOpen}
+        onOpenChange={setAddBrandOpen}
       />
 
     </form>

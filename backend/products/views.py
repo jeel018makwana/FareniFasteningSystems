@@ -10,6 +10,32 @@ from rest_framework.filters import (
 )
 from django.db.models import IntegerField, Value
 from django.db.models.functions import Cast, Replace
+
+from django.db.models.deletion import ProtectedError
+from rest_framework.exceptions import ValidationError
+
+def perform_destroy(self, instance):
+    product_name = instance.name
+
+    try:
+        instance.delete()
+
+        log_activity(
+            user=self.request.user,
+            action="DELETE",
+            module="Products",
+            description=f"Deleted product: {product_name}",
+        )
+
+    except ProtectedError:
+        raise ValidationError(
+            {
+                "detail": (
+                    f"Product '{product_name}' cannot be deleted "
+                    "because it is already used in existing transactions."
+                )
+            }
+        )
 from .models import (
     Category,
     ProductType,
@@ -315,11 +341,22 @@ class ProductViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         product_name = instance.name
 
-        instance.delete()
+        try:
+            instance.delete()
 
-        log_activity(
-            user=self.request.user,
-            action="DELETE",
-            module="Products",
-            description=f"Deleted products: {product_name}",
-        )
+            log_activity(
+                user=self.request.user,
+                action="DELETE",
+                module="Products",
+                description=f"Deleted product: {product_name}",
+            )
+
+        except ProtectedError:
+            raise ValidationError(
+                {
+                    "detail": (
+                        f"Product '{product_name}' cannot be deleted "
+                        "because it is already used in existing transactions."
+                    )
+                }
+            )

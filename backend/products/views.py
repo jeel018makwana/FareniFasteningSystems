@@ -61,8 +61,6 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
 
     queryset = ProductType.objects.select_related(
         "category"
-    ).annotate(
-        numeric_name = Cast("name", IntegerField())
     )
 
     serializer_class = ProductTypeSerializer
@@ -92,12 +90,10 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
     ordering_fields = [
         "name",
         "category__name",
-        "numeric_name"
     ]
 
     ordering = [
-        "name"
-        "numeric_name",
+        "name",
     ]
 
 

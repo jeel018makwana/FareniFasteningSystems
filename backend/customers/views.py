@@ -10,7 +10,7 @@ from rest_framework.exceptions import ValidationError
 
 class CustomerViewSet(viewsets.ModelViewSet):
 
-    queryset = Customer.objects.all().order_by("-id")
+    queryset = Customer.objects.filter(is_active=True).order_by("-id")
 
     serializer_class = CustomerSerializer
 

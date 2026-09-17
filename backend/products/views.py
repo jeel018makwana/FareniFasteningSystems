@@ -96,6 +96,7 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
     ]
 
     ordering = [
+        "name"
         "numeric_name",
     ]
 

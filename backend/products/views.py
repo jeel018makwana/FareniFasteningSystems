@@ -8,7 +8,8 @@ from rest_framework.filters import (
     SearchFilter,
     OrderingFilter,
 )
-
+from django.db.models import IntegerField
+from django.db.models.functions import Cast
 from .models import (
     Category,
     ProductType,
@@ -173,6 +174,8 @@ class ProductLengthViewSet(viewsets.ModelViewSet):
         "product_size",
         "product_size__product_type",
         "product_size__product_type__category",
+    ).annotate(
+        numeric_name = Cast("name", IntegerField())
     )
 
     serializer_class = ProductLengthSerializer
@@ -206,10 +209,11 @@ class ProductLengthViewSet(viewsets.ModelViewSet):
     ordering_fields = [
         "name",
         "product_size__name",
+        "numeric_name"
     ]
 
     ordering = [
-        "name",
+        "numeric_name"
     ]
 
 # =========================================================

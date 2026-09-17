@@ -61,6 +61,8 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
 
     queryset = ProductType.objects.select_related(
         "category"
+    ).annotate(
+        numeric_name = Cast("name", IntegerField())
     )
 
     serializer_class = ProductTypeSerializer
@@ -90,10 +92,11 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
     ordering_fields = [
         "name",
         "category__name",
+        "numeric_name"
     ]
 
     ordering = [
-        "name",
+        "numeric_name",
     ]
 
 
@@ -106,6 +109,8 @@ class ProductSizeViewSet(viewsets.ModelViewSet):
     queryset = ProductSize.objects.select_related(
         "product_type",
         "product_type__category",
+    ).annotate(
+        numeric_name = Cast("name", IntegerField())
     )
 
     serializer_class = ProductSizeSerializer
@@ -137,10 +142,11 @@ class ProductSizeViewSet(viewsets.ModelViewSet):
     ordering_fields = [
         "name",
         "product_type__name",
+        "numeric_name"
     ]
 
     ordering = [
-        "name",
+        "numeric_name",
     ]
 
 

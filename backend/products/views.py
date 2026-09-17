@@ -155,7 +155,7 @@ class ProductSizeViewSet(viewsets.ModelViewSet):
 # BRAND
 # =========================================================
 
-class BrandViewS_et(viewsets.ModelViewSet):
+class BrandViewSet(viewsets.ModelViewSet):
 
     queryset = Brand.objects.all()
 

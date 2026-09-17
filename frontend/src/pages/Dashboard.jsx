@@ -71,7 +71,7 @@ export default function Dashboard() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              FARENI FASTENING SYSTEMS
+              FARENI INDUSTRIAL SOLUTIONS
             </h1>
 
             <p className="mt-2 text-sm text-muted-foreground sm:text-base">
@@ -81,7 +81,7 @@ export default function Dashboard() {
 
           <div className="w-fit rounded-lg border bg-background px-5 py-3 shadow-sm">
             <p className="text-sm font-semibold">
-              Fareni Fastening Systems
+              Fareni Industrial Solutions
             </p>
 
             <p className="mt-0.5 text-xs text-muted-foreground">

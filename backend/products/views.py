@@ -8,7 +8,7 @@ from rest_framework.filters import (
     SearchFilter,
     OrderingFilter,
 )
-from django.db.models import IntegerField
+from django.db.models import IntegerField, Value
 from django.db.models.functions import Cast, Replace
 from .models import (
     Category,
@@ -108,7 +108,7 @@ class ProductSizeViewSet(viewsets.ModelViewSet):
         "product_type__category",
     ).annotate(
         numeric_name=Cast(
-            Replace("name", "M", ""),
+            Replace("name", Value("M"), Value("")),
             IntegerField()
         )
     )

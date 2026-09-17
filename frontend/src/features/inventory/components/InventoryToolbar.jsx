@@ -60,27 +60,23 @@ export default function InventoryToolbar({
 
         <SelectContent>
           <SelectItem value="ALL">
-            All Transactions
+            ALL
           </SelectItem>
 
           <SelectItem value="STOCK_IN">
-            Stock In
+            STOCK IN
           </SelectItem>
 
           <SelectItem value="STOCK_OUT">
-            Stock Out
-          </SelectItem>
-
-          <SelectItem value="OPENING">
-            Opening Stock
+            STOCK OUT
           </SelectItem>
 
           <SelectItem value="PURCHASE">
-            Purchase
+            PURCHASE
           </SelectItem>
 
           <SelectItem value="SALE">
-            Sale
+            SALE
           </SelectItem>
         </SelectContent>
       </Select>

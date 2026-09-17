@@ -11,7 +11,6 @@ class InventoryTransaction(TimeStampedModel):
         ("PURCHASE", "Purchase"),
         ("SALE", "Sale"),
         ("ADJUSTMENT", "Adjustment"),
-        ("OPENING", "Opening Stock"),
     )
 
     product = models.ForeignKey(

@@ -74,7 +74,6 @@ class InventoryTransactionViewSet(viewsets.ModelViewSet):
         if transaction_type in [
             "STOCK_IN",
             "PURCHASE",
-            "OPENING",
             "ADJUSTMENT",
         ]:
             product.current_stock += quantity
@@ -99,7 +98,6 @@ class InventoryTransactionViewSet(viewsets.ModelViewSet):
         if transaction_type in [
             "STOCK_IN",
             "PURCHASE",
-            "OPENING",
             "ADJUSTMENT",
         ]:
             if product.current_stock < quantity:

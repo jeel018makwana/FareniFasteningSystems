@@ -173,10 +173,6 @@ export default function InventoryForm({
               <SelectItem value="STOCK_OUT">
                 Stock Out
               </SelectItem>
-
-              <SelectItem value="OPENING">
-                Opening Stock
-              </SelectItem>
             </SelectContent>
           </Select>
 

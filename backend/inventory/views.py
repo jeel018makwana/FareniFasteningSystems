@@ -2,11 +2,11 @@ from django.db import transaction
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .models import InventoryTransaction
 from .serializers import InventoryTransactionSerializer
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
 class InventoryTransactionViewSet(viewsets.ModelViewSet):
 
     serializer_class = InventoryTransactionSerializer
@@ -47,6 +47,28 @@ class InventoryTransactionViewSet(viewsets.ModelViewSet):
 
     queryset = InventoryTransaction.objects.select_related("product")
 
+    def get_queryset(self):
+        queryset = InventoryTransaction.objects.select_related("product")
+
+        transaction_type = self.request.query_params.get(
+            "transaction_type"
+        )
+
+        product = self.request.query_params.get(
+            "product"
+        )
+
+        if transaction_type:
+            queryset = queryset.filter(
+                transaction_type=transaction_type
+            )
+
+        if product:
+            queryset = queryset.filter(
+                product_id=product
+            )
+
+        return queryset
     def apply_stock(self, product, transaction_type, quantity):
 
         if transaction_type in [

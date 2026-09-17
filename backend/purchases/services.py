@@ -108,6 +108,7 @@ class PurchaseService:
                 product=product,
                 transaction_type="PURCHASE",
                 quantity=item.quantity,
+                stock_after_transaction=product.current_stock,
                 reference=purchase.purchase_number,
                 remarks="Stock added through Purchase",
             )

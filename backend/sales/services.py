@@ -102,7 +102,9 @@ class SaleService:
     
     @staticmethod
     def deduct_stock(sale):
+
         for item in sale.items.select_related("product"):
+
             product = item.product
 
             if product.current_stock < item.quantity:
@@ -114,13 +116,20 @@ class SaleService:
                         )
                     }
                 )
+
             product.current_stock -= item.quantity
-            product.save(update_fields=["current_stock"])
+
+            product.save(
+                update_fields=[
+                    "current_stock"
+                ]
+            )
 
             InventoryTransaction.objects.create(
                 product=product,
                 transaction_type="SALE",
                 quantity=item.quantity,
+                stock_after_transaction=product.current_stock,
                 reference=sale.sale_number,
                 remarks=f"Sale {sale.sale_number}",
             )

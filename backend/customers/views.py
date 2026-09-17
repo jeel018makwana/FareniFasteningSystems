@@ -43,10 +43,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     ordering = ["-id"]
 
-        def perform_destroy(self, instance):
-            try:
-                instance.delete()
+    def perform_destroy(self, instance):
+        try:
+            instance.delete()
 
-            except ProtectedError:
-                instance.is_active = False
-                instance.save(update_fields=["is_active"])
+        except ProtectedError:
+            instance.is_active = False
+            instance.save(update_fields=["is_active"])

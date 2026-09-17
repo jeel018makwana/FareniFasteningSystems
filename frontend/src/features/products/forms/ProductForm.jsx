@@ -326,7 +326,12 @@ export default function ProductForm({
               }
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select category" />
+                <SelectValue placeholder="Select category">
+                  {categoryList.find(
+                    (category) =>
+                      category.id.toString() === watch("category")?.toString()
+                  )?.name}
+                </SelectValue>
               </SelectTrigger>
 
               <SelectContent>
@@ -377,7 +382,12 @@ export default function ProductForm({
                       ? "Select product type"
                       : "Select category first"
                   }
-                />
+                >
+                  {productTypeList.find(
+                    (type) =>
+                      type.id.toString() === watch("product_type")?.toString()
+                  )?.name}
+                </SelectValue>
               </SelectTrigger>
 
               <SelectContent>
@@ -442,17 +452,19 @@ export default function ProductForm({
             >
 
               <SelectTrigger className="w-full">
-
                 <SelectValue
                   placeholder={
                     selectedProductType
                       ? "Select product size"
                       : "Select product type first"
                   }
-                />
-
+                >
+                  {productSizeList.find(
+                    (size) =>
+                      size.id.toString() === watch("product_size")?.toString()
+                  )?.name}
+                </SelectValue>
               </SelectTrigger>
-
 
               <SelectContent>
 
@@ -520,7 +532,12 @@ export default function ProductForm({
                       ? "Select product length"
                       : "Select product size first"
                   }
-                />
+                >
+                  {productLengthList.find(
+                    (length) =>
+                      length.id.toString() === watch("product_length")?.toString()
+                  )?.name}
+                </SelectValue>
               </SelectTrigger>
 
               <SelectContent>
@@ -559,7 +576,12 @@ export default function ProductForm({
               }
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select brand" />
+                <SelectValue placeholder="Select brand">
+                  {brandList.find(
+                    (brand) =>
+                      brand.id.toString() === watch("brand")?.toString()
+                  )?.name}
+                </SelectValue>
               </SelectTrigger>
 
               <SelectContent>

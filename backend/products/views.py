@@ -296,12 +296,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     # -----------------------------------------------------
 
     def perform_destroy(self, instance):
-        instance.is_active = False 
-        instance.save(update_fields=["is_active"])
+        product_name = instance.name
+
+        instance.delete()
 
         log_activity(
             user=self.request.user,
             action="DELETE",
             module="Products",
-            description=f"Deleted product: {instance.name}",
+            description=f"Deleted products: {product_name}",
         )

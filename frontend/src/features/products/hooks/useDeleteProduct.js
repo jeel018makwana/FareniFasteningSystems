@@ -11,8 +11,19 @@ export const useDeleteProduct = () => {
     onSuccess: () => {
       toast.success("Product deleted successfully");
 
+      // Refresh products
       queryClient.invalidateQueries({
         queryKey: ["products"],
+      });
+
+      // Refresh dashboard
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
+      // Refresh inventory-related data if used
+      queryClient.invalidateQueries({
+        queryKey: ["inventory"],
       });
     },
 

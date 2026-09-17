@@ -5,7 +5,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from .models import Customer
 from .serializers import CustomerSerializer
-
+from django.db.models.deletion import ProtectedError
+from rest_framework.exceptions import ValidationError
 
 class CustomerViewSet(viewsets.ModelViewSet):
 
@@ -41,3 +42,11 @@ class CustomerViewSet(viewsets.ModelViewSet):
     ]
 
     ordering = ["-id"]
+
+        def perform_destroy(self, instance):
+            try:
+                instance.delete()
+
+            except ProtectedError:
+                instance.is_active = False
+                instance.save(update_fields=["is_active"])

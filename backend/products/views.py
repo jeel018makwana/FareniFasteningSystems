@@ -10,7 +10,7 @@ from rest_framework.filters import (
 )
 from django.db.models import IntegerField, Value
 from django.db.models.functions import Cast, Replace
-
+from django.db.models.deletion import ProtectedError
 from django.db.models.deletion import ProtectedError
 from rest_framework.exceptions import ValidationError
 
@@ -352,11 +352,12 @@ class ProductViewSet(viewsets.ModelViewSet):
             )
 
         except ProtectedError:
-            raise ValidationError(
-                {
-                    "detail": (
-                        f"Product '{product_name}' cannot be deleted "
-                        "because it is already used in existing transactions."
-                    )
-                }
+            instance.is_active = False
+            instance.save(update_fields=["is_active"])
+
+            log_activity(
+                user=self.request.user,
+                action="DEACTIVATE",
+                module="Products",
+                description=f"Deactivated product: {product_name} because it is used in existing transactions.",
             )

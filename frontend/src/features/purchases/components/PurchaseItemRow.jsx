@@ -84,14 +84,20 @@ export default function PurchaseItemRow({
     categories?.results || [];
 
   const productTypeList =
-    productTypes?.results || [];
+    Array.isArray(productTypes)
+      ? productTypes
+      : productTypes?.results || [];
 
   const productSizeList =
-    productSizes?.results || [];
+    Array.isArray(productSizes)
+      ? productSizes
+      : productSizes?.results || [];
 
   const productLengthList =
-    productLengths?.results || [];
-
+    Array.isArray(productLengths)
+      ? productLengths
+      : productLengths?.results || [];
+      
   // =====================================================
   // PRODUCTS FILTER
   // =====================================================

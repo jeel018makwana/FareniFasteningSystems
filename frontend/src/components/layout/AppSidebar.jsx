@@ -19,16 +19,7 @@ export default function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Building2 className="h-5 w-5" />
-          </div>
-
-          <div>
-            <h2 className="font-bold text-lg">BoltERP</h2>
-            <p className="text-xs text-muted-foreground">
-              Business Suite
-            </p>
-          </div>
+                        <img src="/images/logo.png" alt="Fareni Logo" className="w-full max-w-sm object-contain" />
         </div>
       </SidebarHeader>
 

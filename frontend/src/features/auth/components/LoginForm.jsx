@@ -131,13 +131,7 @@ export default function LoginForm() {
           {/* CENTER CONTENT */}
           <div className="max-w-xl">
 
-            <div className="mb-6 flex items-center gap-3">
-              <div className="h-[2px] w-14 bg-orange-500" />
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-orange-500">
-                Industrial ERP
-              </span>
-            </div>
-
+            
             <h2 className="text-5xl font-black leading-[1.05] tracking-tight text-white xl:text-6xl">
               Industrial Business
               <span className="block text-orange-500">
@@ -193,10 +187,6 @@ export default function LoginForm() {
               <span className="text-2xl font-black text-white">
                 FIS
               </span>
-
-              <span className="text-sm font-medium tracking-[0.25em] text-gray-500">
-                ERP
-              </span>
             </div>
 
             <div className="h-[2px] w-20 bg-orange-500" />
@@ -236,9 +226,6 @@ export default function LoginForm() {
         <div className="absolute right-8 top-8 hidden items-center gap-4 lg:flex">
           <span className="text-xl font-black tracking-tight text-[#111315]">
             FIS
-            <span className="ml-1 font-normal text-gray-500">
-              ERP
-            </span>
           </span>
 
           <div className="h-[3px] w-9 bg-orange-500" />

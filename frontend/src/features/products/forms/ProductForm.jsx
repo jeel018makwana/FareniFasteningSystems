@@ -91,10 +91,17 @@ export default function ProductForm({
     useProductLengths(selectedProductSize);
   const categoryList = categories?.results || [];
   const brandList = brands?.results || [];
-  const productTypeList = productTypes?.results || [];
-  const productSizeList = productSizes?.results || [];
-  const productLengthList =
-      productLengths?.results || [];
+  const productTypeList = Array.isArray(productTypes)
+    ? productTypes
+    : productTypes?.results || [];
+
+  const productSizeList = Array.isArray(productSizes)
+    ? productSizes
+    : productSizes?.results || [];
+
+  const productLengthList = Array.isArray(productLengths)
+    ? productLengths
+    : productLengths?.results || [];
 
   /* -----------------------------
   Load Product for Edit

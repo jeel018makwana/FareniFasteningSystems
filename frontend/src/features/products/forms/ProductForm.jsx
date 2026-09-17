@@ -337,7 +337,7 @@ export default function ProductForm({
                 </SelectValue>
               </SelectTrigger>
 
-              <SelectContent>
+              <SelectContent position="popper">
                 {categoryList.map((category) => (
                   <SelectItem
                     key={category.id}
@@ -393,7 +393,7 @@ export default function ProductForm({
                 </SelectValue>
               </SelectTrigger>
 
-              <SelectContent>
+              <SelectContent position="popper">
                 {productTypeList.map((type) => (
                   <SelectItem
                     key={type.id}
@@ -469,7 +469,7 @@ export default function ProductForm({
                 </SelectValue>
               </SelectTrigger>
 
-              <SelectContent>
+              <SelectContent position="popper">
 
                 {productSizeList.map(
                   (size) => (
@@ -543,7 +543,7 @@ export default function ProductForm({
                 </SelectValue>
               </SelectTrigger>
 
-              <SelectContent>
+              <SelectContent position="popper">
                 {productLengthList.map((length) => (
                   <SelectItem
                     key={length.id}
@@ -602,7 +602,7 @@ export default function ProductForm({
                 </SelectValue>
               </SelectTrigger>
 
-              <SelectContent>
+              <SelectContent position="popper">
                 {brandList.map((brand) => (
                   <SelectItem
                     key={brand.id}

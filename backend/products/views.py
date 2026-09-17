@@ -68,6 +68,8 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
         IsAuthenticated
     ]
 
+    pagination_class = None
+
     filter_backends = [
         DjangoFilterBackend,
         SearchFilter,
@@ -110,6 +112,8 @@ class ProductSizeViewSet(viewsets.ModelViewSet):
     permission_classes = [
         IsAuthenticated
     ]
+
+    pagination_class = None
 
     filter_backends = [
         DjangoFilterBackend,
@@ -176,6 +180,8 @@ class ProductLengthViewSet(viewsets.ModelViewSet):
     permission_classes = [
         IsAuthenticated
     ]
+
+    pagination_class = None
 
     filter_backends = [
         DjangoFilterBackend,

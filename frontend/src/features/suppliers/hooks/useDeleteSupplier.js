@@ -14,6 +14,10 @@ export const useDeleteSupplier = () => {
       queryClient.invalidateQueries({
         queryKey: ["suppliers"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
     },
 
     onError: (error) => {

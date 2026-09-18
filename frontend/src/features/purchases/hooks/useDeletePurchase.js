@@ -15,6 +15,11 @@ export const useDeletePurchase = () => {
         queryKey: ["purchases"],
       });
 
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+      
       queryClient.invalidateQueries({
         queryKey: ["inventory"],
       });

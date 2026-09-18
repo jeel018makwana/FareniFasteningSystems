@@ -14,6 +14,10 @@ export const useDeleteInventory = () => {
       });
 
       queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
+      queryClient.invalidateQueries({
         queryKey: ["products"],
       });
     },

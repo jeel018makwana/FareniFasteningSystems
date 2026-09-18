@@ -16,6 +16,10 @@ export const useUpdateSale = () => {
       });
 
       queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
+      queryClient.invalidateQueries({
         queryKey: ["inventory"],
       });
 

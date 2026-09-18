@@ -14,6 +14,11 @@ export const useUpdateProduct = () => {
       queryClient.invalidateQueries({
         queryKey: ["products"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+      
     },
 
     onError: (error) => {

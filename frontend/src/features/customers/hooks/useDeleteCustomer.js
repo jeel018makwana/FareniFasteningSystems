@@ -14,6 +14,10 @@ export const useDeleteCustomer = () => {
       queryClient.invalidateQueries({
         queryKey: ["customers"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
     },
 
     onError: (error) => {

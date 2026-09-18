@@ -35,11 +35,11 @@ class DashboardAPIView(APIView):
 
     def get(self, request):
 
-        total_products = Product.objects.count()
+        total_products = Product.objects.filter(is_active=True).count()
 
-        total_customers = Customer.objects.count()
+        total_customers = Customer.objects.filter(is_active=True).count()
 
-        total_suppliers = Supplier.objects.count()
+        total_suppliers = Supplier.objects.filter(is_active=True).count()
 
         total_sales = (
             Sale.objects.aggregate(
@@ -70,17 +70,20 @@ class DashboardAPIView(APIView):
         )
 
         current_inventory = (
-            Product.objects.aggregate(
+            Product.objects.filter(is_active=True)
+            .aggregate(
                 total=Sum("current_stock")
             )["total"] or 0
         )
 
         low_stock = Product.objects.filter(
+            is_active=True,
             current_stock__lte=F("minimum_stock")
         ).count()
-
+        
         low_stock_items = list(
             Product.objects.filter(
+                is_active=True,
                 current_stock__lte=F("minimum_stock")
             )
             .values(

@@ -66,7 +66,7 @@ class Customer(TimeStampedModel):
     def save(self, *args, **kwargs):
         if not self.customer_code:
             last_customer = (
-                Customer.objects.filter(customer_code_startswith="CUS")
+                Customer.objects.filter(customer_code__startswith="CUS")
                 .order_by("-id")
                 .first()
             )

@@ -7,7 +7,8 @@ from .models import Customer
 from .serializers import CustomerSerializer
 from django.db.models.deletion import ProtectedError
 from rest_framework.exceptions import ValidationError
-
+from django.db import transaction
+from sales.models import Sale
 class CustomerViewSet(viewsets.ModelViewSet):
 
     queryset = Customer.objects.filter(is_active=True).order_by("-id")
@@ -44,9 +45,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
     ordering = ["-id"]
 
     def perform_destroy(self, instance):
-        try:
+        with transaction.atomic():
+            Sale.objects.filter(customer=instance).delete()
             instance.delete()
-
-        except ProtectedError:
-            instance.is_active = False
-            instance.save(update_fields=["is_active"])

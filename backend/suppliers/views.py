@@ -1,13 +1,15 @@
 from rest_framework import filters, viewsets
 from rest_framework.exceptions import ValidationError
 from django.db.models.deletion import ProtectedError
+from django.db import transaction
+from purchases.models import Purchase
 
 from .models import Supplier
 from .serializers import SupplierSerializer
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
-    queryset = Supplier.objects.filter(is_active=True)
+    queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
     filter_backends = [filters.SearchFilter]
@@ -20,9 +22,6 @@ class SupplierViewSet(viewsets.ModelViewSet):
     ]
 
     def perform_destroy(self, instance):
-        try:
+        with transaction.atomic():
+            Purchase.objects.filter(supplier=instance).delete()
             instance.delete()
-
-        except ProtectedError:
-            instance.is_active = False
-            instance.save(update_fields=["is_active"])

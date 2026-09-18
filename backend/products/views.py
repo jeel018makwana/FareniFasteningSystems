@@ -1,41 +1,17 @@
-from rest_framework import viewsets
+from django.db import transaction
+from django.db.models import IntegerField, Value
+from django.db.models.functions import Cast, Replace
 
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from rest_framework.filters import (
-    SearchFilter,
-    OrderingFilter,
-)
-from django.db.models import IntegerField, Value
-from django.db.models.functions import Cast, Replace
-from django.db.models.deletion import ProtectedError
-from django.db.models.deletion import ProtectedError
-from rest_framework.exceptions import ValidationError
+from sales.models import SaleItem
+from purchases.models import PurchaseItem
+from inventory.models import InventoryTransaction
 
-def perform_destroy(self, instance):
-    product_name = instance.name
-
-    try:
-        instance.delete()
-
-        log_activity(
-            user=self.request.user,
-            action="DELETE",
-            module="Products",
-            description=f"Deleted product: {product_name}",
-        )
-
-    except ProtectedError:
-        raise ValidationError(
-            {
-                "detail": (
-                    f"Product '{product_name}' cannot be deleted "
-                    "because it is already used in existing transactions."
-                )
-            }
-        )
 from .models import (
     Category,
     ProductType,
@@ -55,7 +31,6 @@ from .serializers import (
 )
 
 from .filters import ProductFilter
-
 from logs.utils import log_activity
 
 
@@ -255,9 +230,7 @@ class ProductLengthViewSet(viewsets.ModelViewSet):
 
 class ProductViewSet(viewsets.ModelViewSet):
 
-    queryset = Product.objects.filter(
-        is_active=True
-    ).select_related(
+    queryset = Product.objects.all().select_related(
         "category",
         "product_type",
         "product_size",
@@ -341,23 +314,16 @@ class ProductViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         product_name = instance.name
 
-        try:
+        with transaction.atomic():
+            SaleItem.objects.filter(product=instance).delete()
+            PurchaseItem.objects.filter(product=instance).delete()
+            InventoryTransaction.objects.filter(product=instance).delete()
+
             instance.delete()
 
             log_activity(
                 user=self.request.user,
                 action="DELETE",
                 module="Products",
-                description=f"Deleted product: {product_name}",
-            )
-
-        except ProtectedError:
-            instance.is_active = False
-            instance.save(update_fields=["is_active"])
-
-            log_activity(
-                user=self.request.user,
-                action="DEACTIVATE",
-                module="Products",
-                description=f"Deactivated product: {product_name} because it is used in existing transactions.",
+                description=f"Permanently deleted product: {product_name}",
             )

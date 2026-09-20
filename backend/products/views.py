@@ -177,14 +177,21 @@ class BrandViewSet(viewsets.ModelViewSet):
 # =========================================================
 
 class ProductLengthViewSet(viewsets.ModelViewSet):
+
     queryset = ProductLength.objects.select_related(
         "product_size",
         "product_size__product_type",
         "product_size__product_type__category",
+    ).annotate(
+        numeric_name = Cast("name", IntegerField())
     )
 
     serializer_class = ProductLengthSerializer
-    permission_classes = [IsAuthenticated]
+
+    permission_classes = [
+        IsAuthenticated
+    ]
+
     pagination_class = None
 
     filter_backends = [
@@ -210,9 +217,12 @@ class ProductLengthViewSet(viewsets.ModelViewSet):
     ordering_fields = [
         "name",
         "product_size__name",
+        "numeric_name"
     ]
 
-    ordering = ["name"]
+    ordering = [
+        "numeric_name"
+    ]
 
 # =========================================================
 # PRODUCT
